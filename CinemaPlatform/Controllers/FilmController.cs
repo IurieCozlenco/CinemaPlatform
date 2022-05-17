@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CinemaPlatform.Controllers
 {
     [Route("api/film")]
-    public class FilmController : Controller
+    public class FilmController : ControllerBase
     {
         private readonly FilmService _filmService;
 

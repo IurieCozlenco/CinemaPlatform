@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace CinemaPlatform.BLL.Interfaces
 {
-    public interface ISessionService
+    internal interface ITicketService
     {
     }
 }

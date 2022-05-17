@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CinemaPlatform.Controllers
 {
     [Route("api/session")]
-    public class SessionController : Controller
+    public class SessionController : ControllerBase
     {
         private readonly SessionService _sessionService;
 
