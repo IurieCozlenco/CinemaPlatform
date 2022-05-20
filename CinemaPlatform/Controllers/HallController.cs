@@ -6,7 +6,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace CinemaPlatform.Controllers
 {
     [Route("api/hall")]
-    public class HallController : Controller
+    [ApiController]
+    public class HallController : ControllerBase
     {
         private readonly HallService _hallService;
 

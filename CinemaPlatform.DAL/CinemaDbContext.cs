@@ -3,6 +3,7 @@ using CinemaPlatform.DAL.EntityConfigurations;
 using CinemaPlatform.Domain;
 using CinemaPlatform.Domain.Auth;
 using CinemaPlatform.Domain.Entities;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,7 +35,9 @@ namespace CinemaPlatform.DAL
             var assembly = typeof(SessionConfig).Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
             ApplyIdentityMapConfiguration(modelBuilder);
+            
         }
+        
 
         private void ApplyIdentityMapConfiguration(ModelBuilder modelBuilder)
         {

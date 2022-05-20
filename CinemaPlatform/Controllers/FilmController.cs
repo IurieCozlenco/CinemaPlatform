@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CinemaPlatform.Controllers
 {
     [Route("api/film")]
+    [ApiController]
     public class FilmController : ControllerBase
     {
         private readonly FilmService _filmService;
@@ -25,7 +26,7 @@ namespace CinemaPlatform.Controllers
         }
 
         [HttpGet("getAll")]
-        public async Task<IActionResult> GetFilms([FromQuery] DateTime? startDate = null, [FromQuery] DateTime? finalDate = null)
+        public async Task<ActionResult<IEnumerable<FilmBasicDTO>>> GetFilms([FromQuery] DateTime? startDate = null, [FromQuery] DateTime? finalDate = null)
         {
             return Ok(await _filmService.GetFilms(startDate, finalDate));
         }

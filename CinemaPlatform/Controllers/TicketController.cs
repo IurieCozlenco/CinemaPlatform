@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace CinemaPlatform.Controllers
 {
     [Route("api/ticket")]
+    [ApiController]
     public class TicketController : ControllerBase
     {
         private readonly TicketService _ticketService;

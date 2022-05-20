@@ -19,12 +19,15 @@ namespace CinemaPlatform.API.Controllers
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
         private readonly RoleManager<Role> _roleManager;
-        public AccountController(IOptions<AuthOptions> authenticationOptions, SignInManager<User> signInManager, UserManager<User> userManager, RoleManager<Role> roleManager)
+        private readonly IUserClaimsPrincipalFactory<User> _userClaimsPrincipalFactory;
+
+        public AccountController(IOptions<AuthOptions> authenticationOptions, SignInManager<User> signInManager, UserManager<User> userManager, RoleManager<Role> roleManager, IUserClaimsPrincipalFactory<User> userClaimsPrincipalFactory)
         {
             _authOptions = authenticationOptions.Value;
             _signInManager = signInManager;
             _userManager = userManager;
             _roleManager = roleManager;
+            _userClaimsPrincipalFactory = userClaimsPrincipalFactory;
         }
 
 
@@ -36,12 +39,14 @@ namespace CinemaPlatform.API.Controllers
 
             if (checkingPasswordResult.Succeeded)
             {
+                var user = await _userManager.FindByNameAsync(userForLoginDto.Username);
+                var claimsPrincipal = await _userClaimsPrincipalFactory.CreateAsync(user);
                 var signinCredentials = new SigningCredentials(_authOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256);
                 var jwtSecurityToken = new JwtSecurityToken(
                      issuer: _authOptions.Issuer,
                      audience: _authOptions.Audience,
-                     claims: new List<Claim>(),
-                     expires: DateTime.Now.AddDays(30),
+                     claims: claimsPrincipal.Claims,
+                     expires: DateTime.Now.AddDays(_authOptions.TokenLifetime),
                      signingCredentials: signinCredentials
                 );
 
