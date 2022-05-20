@@ -2,6 +2,7 @@ using CinemaPlatform.BLL.Services;
 using CinemaPlatform.DAL;
 using CinemaPlatform.DAL.Interfaces;
 using CinemaPlatform.DAL.Repositories;
+using CinemaPlatform.Domain.Auth;
 using CinemaPlatform.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 
@@ -36,7 +37,12 @@ namespace CinemaPlatform
 
             builder.Services.AddControllers();
             string defaultConnectionString = builder.Configuration.GetConnectionString("CinemaPlatformConnection");
-            builder.Services.AddDbContext<CinemaDbContext>(options => options.UseSqlServer(defaultConnectionString));
+            builder.Services.AddDbContext<CinemaDbContext>(options => options.UseSqlServer(defaultConnectionString))
+                .AddIdentity<User, Role>(options =>
+            {
+                options.Password.RequiredLength = 8;
+            }).AddEntityFrameworkStores<CinemaDbContext>();
+
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
@@ -51,12 +57,13 @@ namespace CinemaPlatform
 
             app.UseHttpsRedirection();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.MapControllers();
 
             app.Run();
-           
+
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using CinemaPlatform.BLL.Services;
 using CinemaPlatform.Common.Dtos.Film;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaPlatform.Controllers
@@ -15,6 +16,7 @@ namespace CinemaPlatform.Controllers
         }
 
         [HttpPost("createFilm")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateFilm([FromBody] FilmCreateDTO filmCreateDTO)
         {
             var result = await _filmService.CreateFilmAsync(filmCreateDTO);

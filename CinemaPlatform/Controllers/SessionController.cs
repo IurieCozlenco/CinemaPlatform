@@ -1,5 +1,6 @@
 ﻿using CinemaPlatform.BLL.Services;
 using CinemaPlatform.Common.Dtos.Session;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaPlatform.Controllers
@@ -15,6 +16,7 @@ namespace CinemaPlatform.Controllers
         }
 
         [HttpPost("createSession")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateSession([FromBody] SessionCreateDTO sessionCreateDTO)
         {
             var result = await _sessionService.CreateSessionAsync(sessionCreateDTO);

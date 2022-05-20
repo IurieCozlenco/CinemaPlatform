@@ -1,12 +1,15 @@
-﻿using CinemaPlatform.DAL.EntityConfigurations;
+﻿using CinemaPlatform.DAL.Constants;
+using CinemaPlatform.DAL.EntityConfigurations;
 using CinemaPlatform.Domain;
+using CinemaPlatform.Domain.Auth;
 using CinemaPlatform.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace CinemaPlatform.DAL
 
 {
-    public class CinemaDbContext : DbContext
+    public class CinemaDbContext :  IdentityDbContext<User, Role, int, UserClaim, UserRole, UserLogin, RoleClaim, UserToken>
     {
 
         public CinemaDbContext(DbContextOptions<CinemaDbContext> options) : base(options)
@@ -30,6 +33,18 @@ namespace CinemaPlatform.DAL
 
             var assembly = typeof(SessionConfig).Assembly;
             modelBuilder.ApplyConfigurationsFromAssembly(assembly);
+            ApplyIdentityMapConfiguration(modelBuilder);
+        }
+
+        private void ApplyIdentityMapConfiguration(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<User>().ToTable("Users", SchemaConstants.Auth);
+            modelBuilder.Entity<UserClaim>().ToTable("UserClaims", SchemaConstants.Auth);
+            modelBuilder.Entity<UserLogin>().ToTable("UserLogins", SchemaConstants.Auth);
+            modelBuilder.Entity<UserToken>().ToTable("UserRoles", SchemaConstants.Auth);
+            modelBuilder.Entity<Role>().ToTable("Roles", SchemaConstants.Auth);
+            modelBuilder.Entity<RoleClaim>().ToTable("RoleClaims", SchemaConstants.Auth);
+            modelBuilder.Entity<UserRole>().ToTable("UserRole", SchemaConstants.Auth);
         }
     }
 }

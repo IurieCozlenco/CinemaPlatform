@@ -1,5 +1,6 @@
 ﻿using CinemaPlatform.BLL.Services;
 using CinemaPlatform.Common.Dtos.Hall;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaPlatform.Controllers
@@ -15,6 +16,7 @@ namespace CinemaPlatform.Controllers
         }
 
         [HttpPost("createHall")]
+        [Authorize(Roles = "admin")]
         public async Task<IActionResult> CreateHall([FromBody] HallCreateDTO hallCreateDTO)
         {
             var result = await _hallService.CreateHallAsync(hallCreateDTO);

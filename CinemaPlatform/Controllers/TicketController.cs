@@ -1,5 +1,6 @@
 ﻿using CinemaPlatform.BLL.Services;
 using CinemaPlatform.Common.Dtos.Ticket;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CinemaPlatform.Controllers
@@ -15,6 +16,7 @@ namespace CinemaPlatform.Controllers
         }
 
         [HttpPost("createTicket")]
+        [Authorize]
         public async Task<IActionResult> CreateTicket([FromBody] TicketCreateDTO ticketCreateDTO)
         {
             var result = await _ticketService.CreateTicketAsync(ticketCreateDTO);
